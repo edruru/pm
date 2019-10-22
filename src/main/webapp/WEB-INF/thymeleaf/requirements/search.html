@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="/layouts/decorator.html">
+
+<head>
+    <title>inndra &mdash; Record</title>
+    <link media="screen" rel="stylesheet" type="text/css"
+          th:href="@{/client/assets/plugins/css/starter-template.css}"/>
+</head>
+<body>
+<th:block layout:fragment="header" layout:include="/decorators/header.html :: header">
+    HEADER
+</th:block>
+
+<!--  -->
+<div layout:fragment="sidebar" layout:include="/decorators/sidebar.html :: sidebar_requirement"></div>
+
+
+<div layout:fragment="content" class="container">
+
+<form th:object="${requirement}" class="form-horizontal" th:action='find' method="GET">
+
+    <h3>Search requirement </h3>
+
+    <th:block th:with='isFault=${#fields.hasErrors()} ? ${#fields.hasErrors("text")}'>
+        <div class="form-group" th:classappend='${isFault} ? has-error'>
+            <label class="col-sm-1 control-label">Query:</label>
+
+            <div class="col-sm-5">
+                <div id="queryBlock">
+
+                </div>
+
+                <span th:if='${isFault}'
+                      th:title="${#fields.errors('text')}"
+                      class="glyphicon glyphicon-remove form-control-feedback"
+                      data-toggle="tooltip"></span>
+            </div>
+
+            <th:block th:object="${criteria}">
+                <label class="col-sm-1 control-label">Filter:</label>
+
+                <div class="col-sm-3">
+                    <select class="form-control" th:field="${criteria.type}">
+                        <option th:value="1">User</option>
+                        <option th:value="2">Text</option>
+                        <option th:value="3">Project</option>
+                        <option th:value="4">Date</option>
+                    </select>
+                </div>
+            </th:block>
+
+            <div class="col-sm-2">
+                <button id="doSearch" type="submit" class="btn btn-primary">Search <span
+                        class="glyphicon glyphicon-search"></span></button>
+            </div>
+        </div>
+    </th:block>
+</form>
+
+<form>
+    <div class="form-group">
+        <div class="col-sm-offset-10 col-sm-2">
+            <a class="btn btn-primary" id="generateCsvReport" href="#"> Export to Excel </a>
+        </div>
+        <div class=" col-sm-12">
+            <h4>Results</h4>
+            <th:block>
+                <table class="table table-striped" id="resultTable">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th class="col-xs-2">Assigned to</th>
+                        <th class="col-xs-2">Description</th>
+                        <th class="col-xs-1">Priority</th>
+                        <th class="col-xs-1">Status</th>
+                        <th class="col-xs-2">Started on</th>
+                        <th class="col-xs-2">Finished on</th>
+                        <th class="col-xs-2">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:id="row__${iterStat.index}__" th:each="requirement1, iterStat  : ${requirementsList}">
+                        <td name="id" th:text="${requirement1.id}">Peter</td>
+                        <td name="user"
+                            th:text="(${usersAssignedList[__${iterStat.index}__].name}) ? ${usersAssignedList[__${iterStat.index}__].name} : 'N/A' ">
+                            Jackson
+                        </td>
+                        <td name="text" th:text="${requirement1.text}">Jackson</td>
+                        <td name="priority" th:text="${prioritiesAssignedList[__${iterStat.index}__].type}">
+                            Jackson
+                        </td>
+                        <td name="status" th:text="${statusList[__${iterStat.index}__]}"> -</td>
+                        <td name="beginDate"
+                            th:text="(${requirement1.beginDate}) ? ${requirement1.beginDate} : 'N/A'">Peter
+                        </td>
+                        <td name="finishDate"
+                            th:text="(${requirement1.finishDate}) ? ${requirement1.finishDate} : 'N/A'">Peter
+                        </td>
+                        <td>
+                            <!--<a th:href="@{edit/(id=${requirement1.id})}" class="btn btn-primary">Update</a>-->
+                            <a th:id="${requirement1.id}" th:name="row__${iterStat.index}__"
+                               class="btn btn-primary details" data-toggle="modal" data-target="#updateModal"
+                               title="Details">Details <span class="glyphicon glyphicon-eye-open"></span></a>
+                            <a th:id="row__${iterStat.index}__" th:name="${requirement1.id}"
+                               class="btn btn-danger delete" title="Delete"><label class="sr-only">Delete</label>
+                                <span class="glyphicon glyphicon-remove"></span></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </th:block>
+            <small>N/A : Not Assigned</small>
+            <br/>
+        </div>
+    </div>
+</form>
+
+<!-- Modal for updates -->
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span
+                        aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">Requirement #(id)</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-2">
+                        <label for="updateId">ID: </label> <label id="updateId"> - </label>
+                    </div>
+                    <div class="col-xs-5 col-xs-offset-5">
+                        <label for="updateCreationDate">Created on: </label>
+                        <small><i><label id="updateCreationDate"> - </label></i></small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <label for="updateUserId">User Assigned: </label>
+                        <select id="updateUserId" class="form-control"> - </select>
+                    </div>
+                    <div class="col-xs-4">
+                        <label for="updateProjectId">Project Assigned: </label>
+                        <select id="updateProjectId" class="form-control"> - </select>
+                    </div>
+                    <div class="col-xs-4">
+                        <label for="updatePriorityId">Priority Assigned: </label>
+                        <select id="updatePriorityId" class="form-control"> - </select>
+                    </div>
+                </div>
+                <br/>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <textarea id="updateText" class="form-control" rows="6"
+                                  placeholder="Set the description for this requirement."></textarea>
+                    </div>
+                </div>
+                <br/>
+
+                <div class="row">
+                    <div class="col-xs-12"><label>Scheduled Dates</label></div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <label for="updateBeginDate">Begin Date:</label>
+                        <input type="date" id="updateBeginDate" class="form-control"/>
+                    </div>
+                    <div class="col-xs-6">
+                        <label for="updateFinishDate">Finish Date:</label>
+                        <input type="date" id="updateFinishDate" class="form-control"/>
+                    </div>
+                </div>
+                <br/>
+
+                <!-- Section for the requirement activity -->
+                <div class="row">
+                    <div class="col-xs-12"><label>Requirement Status</label></div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <table class="table">
+                            <thead>
+                            <th class="col-xs-1">#</th>
+                            <th class="col-xs-5">Text</th>
+                            <th class="col-xs-2">Status</th>
+                            <th class="col-xs-4">Date</th>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="col-xs-12" style="height:150px; overflow:auto;">
+                        <table class="table">
+                            <tbody id="statusBody">
+                            <tr>
+                                <td>1</td>
+                                <td>Requirement Created</td>
+                                <td>New</td>
+                                <td>Jaime Val</td>
+                                <td>7 de julio de 2014 08:33:17 CDT</td>
+                            </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                    <center>
+                        <div id="actionsToImplement"><a class="btn btn-success">Continue Workflow</a></div>
+                    </center>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button id="closeModal" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <a id="updateSave" class="btn btn-primary doUpdate" name="0" data-dismiss="modal">Save changes <span
+                        class='glyphicon glyphicon-floppy-disk'></span> </a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<th:block layout:fragment="configuration">
+    <script th:src="@{/assets/libs/jquery/js/jquery.min.js}"></script>
+    <script th:src="@{/assets/libs/bootstrap-3.1.1/js/bootstrap.min.js}"></script>
+    <script th:src="@{/assets/libs/pm/searchFields.js}"></script>
+</th:block>
+</body>
+</html>

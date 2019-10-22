@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+
+
+</head>
+<body>
+
+<th:block layout:fragment="header">
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" th:href="@{/admin}">Project Management</a>
+            </div>
+
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu<span
+                                    class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a th:href="@{/requirement/menu}">Requirement</a></li>
+                                <li class="divider"></li>
+                                <li><a th:href="@{/record/menu}">Record</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="navbar-text">Welcome</li>
+                    <li class="navbar-text" th:text="${#authentication.name}"></li>
+                    <li>
+                        <form th:action="@{/j_spring_security_logout}" method="post">
+                            <input type="hidden" name="${_csrf.parameterName}"
+                                   value="${_csrf.token}"/>
+                            <button type="submit" class="btn btn-warning btn-sm navbar-btn">Logout</button>
+                        </form>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<!-- End:Layout -->
+</body>
+</html>

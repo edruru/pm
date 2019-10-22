@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="/layouts/decorator.html">
+
+<head>
+    <title>inndra &mdash; Requirement</title>
+    <link media="screen" rel="stylesheet" type="text/css"
+          th:href="@{/client/assets/plugins/css/starter-template.css}"/>
+</head>
+<body>
+<th:block layout:fragment="header" layout:include="/decorators/header.html :: header">
+    HEADER
+</th:block>
+
+<!--  -->
+<div layout:fragment="sidebar" layout:include="/decorators/sidebar.html :: sidebar_projects"></div>
+
+<div layout:fragment="content" class="container">
+
+    <form th:object="${project}" class="form-horizontal" th:action='@{create}' method="POST">
+
+        <h3>Project</h3>
+
+
+        <th:block th:with='isFault=${#fields.hasErrors()} ? ${#fields.hasErrors("name")}'>
+            <div class="form-group" th:classappend='${isFault} ? has-error'>
+                <label class="col-sm-2 control-label">Name:</label>
+
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" th:field="*{name}"
+                           placeholder="Enter a name for the project" th:value="*{name}"/>
+                </div>
+                <span th:class="help-block" th:if='${isFault}'>Please enter a name</span>
+            </div>
+        </th:block>
+
+        <div class="form-group" th:classappend='${isFault} ? has-error'>
+            <label class="col-sm-2 control-label">Description:</label>
+
+            <div class="col-sm-6">
+                <textarea class="form-control" rows="4" th:field="*{description}" placeholder="Description"
+                          th:value="*{description}"/>
+            </div>
+            <span th:class="help-block" th:if='${isFault}' th:errors="*{description}"/>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">Add Project</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<th:block layout:fragment="configuration">
+    <script th:src="@{/assets/libs/jquery/js/jquery.min.js}"></script>
+    <script th:src="@{/assets/libs/bootstrap-3.1.1/js/bootstrap.min.js}"></script>
+    <script>
+			$('[data-toggle=tooltip]:visible').tooltip();
+			console.log();
+
+    </script>
+</th:block>
+</body>
+</html>

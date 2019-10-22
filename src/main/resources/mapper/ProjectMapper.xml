@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+        'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace='com.inndra.pm.core.mapper.ProjectMapper'>
+
+    <select id='getProjectById' parameterType='int' resultType='com.inndra.pm.core.domain.model.Project'>
+        SELECT *
+        FROM Projects
+        WHERE id = #{id}
+    </select>
+    <!-- Instead of referencing Fully Qualified Class Names we can register Aliases in mybatis-config.xml and use Alias names. -->
+    <resultMap type='Project' id='ProjectResult'>
+        <id property='id' column='id'/>
+        <result property='name' column='name'/>
+        <result property='description' column='description'/>
+    </resultMap>
+
+    <select id='getAllProjects' resultMap='ProjectResult'>
+        SELECT * FROM Projects
+    </select>
+
+    <select id="getProjectByName" resultMap='ProjectResult'>
+        SELECT *
+        FROM Projects
+        WHERE name LIKE #{name}
+    </select>
+
+    <insert id='insertProject' parameterType='Project' useGeneratedKeys='true' keyProperty='id'>
+        INSERT INTO Projects(name, description)
+        VALUES(#{name}, #{description})
+    </insert>
+
+    <update id='updateProject' parameterType='Project'>
+        UPDATE Projects
+        SET
+        name= #{name},
+        description = #{description}
+        WHERE id = #{id}
+    </update>
+
+    <delete id='deleteProject' parameterType='int'>
+        DELETE FROM Projects WHERE id = #{id}
+    </delete>
+
+</mapper>

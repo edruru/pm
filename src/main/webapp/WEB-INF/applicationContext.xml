@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- Annotation driven configuration -->
+	<context:component-scan base-package="com.inndra.pm" />
+
+	<context:spring-configured />
+
+
+    <!-- LOG -->
+	<bean id="log4jInitialization" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetClass" value="org.springframework.util.Log4jConfigurer" />
+		<property name="targetMethod" value="initLogging" />
+		<property name="arguments">
+			<list>
+				<value>file:${project.basedir:conf}/log4j.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- JSR-303 -->
+	<bean id="validatorFactory" class="javax.validation.Validation" factory-method="buildDefaultValidatorFactory" />
+	<bean id="validator" factory-bean="validatorFactory" factory-method="getValidator" />
+
+    <!-- Load Cache configuration -->
+    <import resource="springframework/webmvc.xml" />
+
+    <import resource="classpath:spring-dao.xml"/>
+
+
+</beans>

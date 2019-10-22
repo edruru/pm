@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="/layouts/decorator.html">
+
+<head>
+    <title>inndra &mdash; Requirement</title>
+    <link media="screen" rel="stylesheet" type="text/css"
+          th:href="@{/client/assets/plugins/css/starter-template.css}"/>
+</head>
+<body>
+
+<th:block layout:fragment="header" layout:include="/decorators/header.html :: header">HEADER</th:block>
+
+<div layout:fragment="sidebar" layout:include="/decorators/sidebar.html :: sidebar_requirement"></div>
+
+<div layout:fragment="content" class="container">
+
+    <hr/>
+    <form th:object='${requirement}' th:action='create' method='post'>
+
+        <div class="row">
+            <div class="col-sm-10">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th colspan="2"><i>Required Fields</i></th>
+                    </tr>
+                    <tr>
+                        <th>Requirement</th>
+                        <th>Priority</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+
+                    <tr>
+                        <td>
+                            <th:block th:with='isFault=${#fields.hasErrors()} ? ${#fields.hasErrors("text")}'>
+                                <div class='form-group' th:classappend='${isFault} ? has-error'>
+                                    <textarea class="form-control" th:field="*{text}" placeholder="Text"
+                                              autocomplete="off"></textarea>
+                                    <span th:class="help-block" th:if='${isFault}'>Please enter a description</span>
+                                </div>
+                            </th:block>
+                        </td>
+                        <td>
+                            <select class="form-control" th:field="*{priorityId}">
+                                <th:block th:each="priority : ${prioritiesList}">
+                                    <option th:selected='*{priorityId } == ${priority.id}'
+                                            th:text="${priority.type}" th:value="${priority.id}"></option>
+                                </th:block>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="2"><a id="optionalFields">(>>)</a> <i>Optional Fields</i></th>
+                    </tr>
+                    <tr class="optionalItem">
+                        <th>Project</th>
+                        <th>User Assigned</th>
+                    </tr>
+
+                    <tr class="optionalItem">
+                        <td>
+                            <!-- Dropdown with all the projects -->
+                            <select class="form-control" th:field="*{projectId}">
+                                <option value="0">Select...</option>
+                                <th:block th:each="projectId : ${projectsList}">
+                                    <option th:selected=' (*{projectId } == ${projectId.id} ) and (*{projectId } > 0)'
+                                            th:text="${projectId.name}" th:value="${projectId.id}"></option>
+                                </th:block>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-control" th:field="*{userId}">
+                                <option value="0">Select...</option>
+                                <th:block th:each="user : ${usersList}">
+                                    <option th:selected='*{userId } == ${user.id}'
+                                            th:text="${user.name}" th:value="${user.id}"></option>
+                                </th:block>
+                            </select>
+                        </td>
+
+                    </tr>
+                    <tr class="optionalItem">
+                        <th>Start Date:</th>
+                        <th>Finish Date:</th>
+                    </tr>
+                    <tr class="optionalItem">
+                        <td>
+                            <input value="NULL" class="form-control" type="date" th:field="*{beginDate}"/>
+                        </td>
+                        <td>
+                            <input value="NULL" class="form-control" type="date" th:field="*{finishDate}"/>
+
+                            <input value="NULL" type="hidden" th:field="*{sprintId}" th:value="${serial}"/>
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+                </table>
+                <button class="btn btn-primary" style="float: right;">Create</button>
+            </div>
+        </div>
+
+    </form>
+    <hr/>
+
+</div>
+
+<!--  -->
+
+<th:block layout:fragment="configuration">
+    <script th:src="@{/assets/libs/jquery/js/jquery.min.js}"></script>
+    <script th:src="@{/assets/libs/bootstrap-3.1.1/js/bootstrap.min.js}"></script>
+    <script>
+			$('[data-toggle=tooltip]:visible').tooltip();
+			console.log();
+			$("#optionalFields").click( function(){
+			    $(".optionalItem").fadeToggle();
+			});
+
+    </script>
+</th:block>
+</body>
+</html>

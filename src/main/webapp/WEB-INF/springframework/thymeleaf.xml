@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- <bean id="templateResolver"
+
+    class="org.thymeleaf.templateresolver.ClassLoaderTemplateResolver"> -->
+
+    <bean id="templateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+        <property name="prefix" value="/WEB-INF/thymeleaf/"/>
+        <!--<property name="suffix" value=".html" /> -->
+        <property name="templateMode" value="HTML5" />
+		<!-- Template cache is set to false (default is true). -->
+		<property name="cacheable" value="false" />
+	</bean>
+
+	<bean id="templateEngine" class="org.thymeleaf.spring3.SpringTemplateEngine">
+		<property name="templateResolver" ref="templateResolver" />
+		<property name="additionalDialects">
+			<set>
+				<!-- <bean class="org.thymeleaf.extras.tiles2.dialect.TilesDialect" /> -->
+                <bean class="org.thymeleaf.extras.springsecurity3.dialect.SpringSecurityDialect"
+                        />
+                <!-- <bean class="org.thymeleaf.extras.conditionalcomments.dialect.ConditionalCommentsDialect"
+                    /> -->
+				<bean class="nz.net.ultraq.thymeleaf.LayoutDialect" />
+			</set>
+		</property>
+	</bean>
+
+	<bean class="org.thymeleaf.spring3.view.ThymeleafViewResolver">
+		<property name="templateEngine" ref="templateEngine" />
+		<property name="characterEncoding" value="UTF-8" />
+	</bean>
+
+
+</beans>

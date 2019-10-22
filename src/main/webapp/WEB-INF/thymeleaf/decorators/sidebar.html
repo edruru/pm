@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head></head>
+<body>
+
+<th:block layout:fragment="sidebar_catalog">
+    <div>
+        <br/>
+        <ul class="nav nav-pills nav-stacked">
+            <li class="active"><a>Catalog</a></li>
+            <li><a href="users/menu">Users</a></li>
+            <li><a href="project/search">Projects</a></li>
+        </ul>
+    </div>
+</th:block>
+
+<th:block layout:fragment="sidebar_users">
+    <div>
+        <br/>
+        <ul class="nav nav-pills nav-stacked">
+
+            <li class="active"><a>Users</a></li>
+            <li><a href="new">New User</a></li>
+            <li><a href="search">Manage Users</a></li>
+        </ul>
+    </div>
+</th:block>
+
+<th:block layout:fragment="sidebar_projects">
+    <div>
+        <br/>
+        <ul class="nav nav-pills nav-stacked">
+
+            <li class="active"><a>Projects</a></li>
+            <li><a th:href='@{/project/new}'>New Project</a></li>
+            <li><a th:href='@{/project/search}'>Manage Projects</a></li>
+        </ul>
+    </div>
+</th:block>
+
+<th:block layout:fragment="sidebar_requirement">
+    <div>
+        <br/>
+        <ul class="nav nav-pills nav-stacked">
+
+            <li id="reqItem" class="active"><a>Requirements Menu</a></li>
+            <li id="reqItemOverview"><a href="menu">Overview</a>
+            </li>
+            <li id="reqItemNew"><a href="new">New Requirement</a>
+            </li>
+            <li id="reqItemSearch"><a href="search">Search Requirement</a>
+            </li>
+        </ul>
+    </div>
+</th:block>
+
+<th:block layout:fragment="sidebar_record">
+    <div>
+        <br/>
+        <ul class="nav nav-pills nav-stacked">
+            <li id="recItem" class="active"><a>Record Menu</a></li>
+            <li><a id="recItemOver" th:href='@{/record/menu}'>Overview</a></li>
+            <li><a id="recItemAdd" th:href='@{/record/add}'>New Record</a></li>
+            <li><a id="recItemSearch" th:href='@{/record/search}'>Search Record</a></li>
+        </ul>
+    </div>
+</th:block>
+
+<th:block layout:fragment="sidebar_user">
+    <div>
+        <br/>
+        <ul class="nav nav-pills nav-stacked">
+            <li id="userItem" class="active"><a>User Menu</a></li>
+            <li><a id="userItemAdd" th:href='@{/users/add}'>New User</a></li>
+            <li><a id="userItemSearch" th:href='@{/users/search}'>Search User</a></li>
+        </ul>
+    </div>
+</th:block>
+
+<!-- End:Layout -->
+</body>
+</html>

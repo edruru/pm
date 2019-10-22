@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="/layouts/decorator.html">
+
+<head>
+    <title>inndra &mdash; Project</title>
+    <link media="screen" rel="stylesheet" type="text/css"
+          th:href="@{/client/assets/plugins/css/starter-template.css}"/>
+</head>
+<body>
+<th:block layout:fragment="header" layout:include="/decorators/header.html :: header">
+    HEADER
+</th:block>
+
+<!--  -->
+<div layout:fragment="sidebar" layout:include="/decorators/sidebar.html :: sidebar_projects"></div>
+
+<div layout:fragment="content" class="container">
+
+
+    <h2>Project</h2><br/>
+
+    <table class="table">
+        <thead>
+        <th>#</th>
+        <th>Name</th>
+        <th>Description</th>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${createdItem.id}"> -</td>
+            <td th:text="${createdItem.name}"> -</td>
+            <td th:text="${createdItem.description}"> -</td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <td colspan="3" style="text-align: right;">
+            <a th:href="@{search}" class="btn btn-primary"><span class='glyphicon glyphicon-floppy-disk'></span>
+                Done</a>
+        </td>
+        </tfoot>
+    </table>
+
+</div>
+
+<!--  -->
+
+<th:block layout:fragment="configuration">
+    <script th:src="@{/assets/libs/jquery/js/jquery.min.js}"></script>
+    <script th:src="@{/assets/libs/bootstrap-3.1.1/js/bootstrap.min.js}"></script>
+</th:block>
+</body>
+</html>

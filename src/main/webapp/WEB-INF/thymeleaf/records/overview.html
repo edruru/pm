@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="/layouts/decorator.html">
+
+<head>
+    <title>inndra &mdash; Record</title>
+    <link media="screen" rel="stylesheet" type="text/css"
+          th:href="@{/client/assets/plugins/css/starter-template.css}"/>
+</head>
+<body>
+<th:block layout:fragment="header" layout:include="/decorators/header.html :: header">
+    HEADER
+</th:block>
+
+<!--  -->
+<div layout:fragment="sidebar" layout:include="/decorators/sidebar.html :: sidebar_record"></div>
+
+<div layout:fragment="content" class="container">
+
+    <form>
+        <div class="form-group">
+            <div class="col-sm-12">
+                <h4>Last Activities</h4>
+                <th:block>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th class="col-sm-1">#</th>
+                            <th class="col-sm-1">User</th>
+                            <th class="col-sm-4">Description</th>
+                            <th class="col-sm-1">Created</th>
+                            <th class="col-sm-1">Started</th>
+                            <th class="col-sm-1">Finished</th>
+                            <th class="col-sm-2">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody th:sortedEach="${recordList}">
+                        <tr th:id="row__${recStat.index}__" th:each="record1, recStat : ${recordList}">
+                            <td th:text="${record1.id}">Peter</td>
+                            <td th:text="${userList[__${recStat.index}__].name}">Jackson</td>
+                            <td th:text="${record1.description}">Jackson</td>
+                            <td th:text="${#dates.format(record1.creationDate, 'yyyy-MM-dd HH:mm:ss')}"/>
+                            <td th:text="${record1.beginDate != null} ? *{#dates.format(record1.beginDate, 'yyyy-MM-dd HH:mm:ss')}"/>
+                            <td th:text="${record1.finishDate != null} ? *{#dates.format(record1.finishDate, 'yyyy-MM-dd HH:mm:ss')}"/>
+                            <td>
+
+                                <a th:href="@{edit/(id=${record1.id})}" class="btn btn-primary update">Update</a>
+                                <!--<a th:id="${record1.id}" th:name="row__${recStat.index}__"
+                                   class="btn btn-primary update">Update</a>-->
+                                <a th:id="row__${recStat.index}__" th:name="${record1.id}"
+                                   class="btn btn-danger delete">Delete</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </th:block>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<!--  -->
+
+<th:block layout:fragment="configuration">
+    <script th:src="@{/assets/libs/jquery/js/jquery.min.js}"></script>
+    <script th:src="@{/assets/libs/bootstrap-3.1.1/js/bootstrap.min.js}"></script>
+    <script th:src="@{/assets/libs/pm/searchRecordFields.js}"></script>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="/layouts/decorator.html">
+
+<head>
+    <title>inndra &mdash; Record</title>
+    <link media="screen" rel="stylesheet" type="text/css"
+          th:href="@{/client/assets/plugins/css/starter-template.css}"/>
+</head>
+<body>
+<th:block layout:fragment="header" layout:include="/decorators/header.html :: header">
+    HEADER
+</th:block>
+<!--  -->
+<div layout:fragment="sidebar" layout:include="/decorators/sidebar.html :: sidebar_record">
+
+</div>
+
+<div layout:fragment="content" class="container">
+
+    <form class="form-horizontal" th:object="${record}" method="POST">
+
+        <h3 class="col-sm-offset-1"> Edit record</h3>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">ID</label>
+
+            <div class="col-sm-2">
+                <h5 th:text="${record.id}"></h5>
+            </div>
+        </div>
+
+        <input type="hidden"
+               th:name="${_csrf.parameterName}"
+               th:value="${_csrf.token}"/>
+
+        <th:block th:with='isFault=${#fields.hasErrors()} ? ${#fields.hasErrors("userId")}'>
+            <div class="form-group" th:classappend='${isFault} ? has-error'>
+                <label class="col-sm-2 control-label">User:</label>
+
+                <div class="col-sm-2">
+                    <select class="form-control" th:field="${record.userId}">
+                        <th:block th:each="user : ${userList}">
+                            <option th:selected="${user.id} == *{userId}" th:text="${user.name}" th:value="${user.id}"/>
+                        </th:block>
+                    </select>
+                </div>
+                 <span th:if='${isFault}'
+                       th:title='${#fields.errors("userId")}'
+                       class="glyphicon glyphicon-remove form-control-feedback"
+                       data-toggle="tooltip"></span>
+            </div>
+        </th:block>
+
+        <input type="datetime" th:type="hidden" th:field="*{creationDate}"
+                />
+
+        <th:block th:with='isFault=${#fields.hasErrors()} ? ${#fields.hasErrors("beginDate")}'>
+            <div class="form-group" th:classappend='${isFault} ? has-error'>
+                <label class="col-sm-2 control-label">Begin Date:</label>
+
+                <div class="col-sm-3">
+                    <input type="datetime" class="form-control" th:field="*{beginDate}"
+                           placeholder="YYYY-MM-DD HH:MM:SS"/>
+                </div>
+                 <span th:if='${isFault}'
+                       th:title='Invalid_Date_Format'
+                       class="glyphicon glyphicon-remove form-control-feedback"
+                       data-toggle="tooltip"></span>
+            </div>
+        </th:block>
+
+        <th:block th:with='isFault=${#fields.hasErrors()} ? ${#fields.hasErrors("finishDate")}'>
+            <div class="form-group" th:classappend='${isFault} ? has-error'>
+                <label class="col-sm-2 control-label">Finish Date:</label>
+
+                <div class="col-sm-3">
+                    <input type="datetime" class="form-control" th:field="*{finishDate}"
+                           placeholder="YYYY-MM-DD HH:MM:SS"/>
+                </div>
+                 <span th:if='${isFault}'
+                       th:title='Invalid_Date_Format'
+                       class="glyphicon glyphicon-remove form-control-feedback"
+                       data-toggle="tooltip"></span>
+            </div>
+        </th:block>
+
+        <th:block th:with='isFault=${#fields.hasErrors()} ? ${#fields.hasErrors("description")}'>
+            <div class="form-group" th:classappend='${isFault} ? has-error'>
+                <label class="col-sm-2 control-label">Description:</label>
+
+                <div class="col-sm-6">
+                    <textarea class="form-control" rows="4" th:field="*{description}"/>
+                </div>
+                 <span th:if='${isFault}'
+                       th:title='${#fields.errors("description")}'
+                       class="glyphicon glyphicon-remove form-control-feedback"
+                       data-toggle="tooltip"></span>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </div>
+        </th:block>
+    </form>
+</div>
+
+<!--  -->
+
+<th:block layout:fragment="configuration">
+    <script th:src="@{/assets/libs/jquery/js/jquery.min.js}"></script>
+    <script th:src="@{/assets/libs/bootstrap-3.1.1/js/bootstrap.min.js}"></script>
+</th:block>
+</body>
+</html>

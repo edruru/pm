@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"> <!--<![endif]-->
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="author" content="Samples"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta http-equiv="Cache-Control" content="max-age=0"/>
+    <meta http-equiv="Cache-Control" content="no-cache"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <!-- default header name is X-CSRF-TOKEN -->
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+    <title layout:title-pattern="$CONTENT_TITLE - $DECORATOR_TITLE">Samples</title>
+    <!--/* DEFAULT STYLES */-->
+    <link media="screen" rel="stylesheet" type="text/css"
+          th:href="@{/assets/libs/bootstrap-3.1.1/css/bootstrap.min.css}"/>
+    <!--[if lt IE 8]> <![endif]-->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <remember-me key="myAppKey"/>
+</head>
+<body>
+<div layout:fragment="header" class="col-xs-12"></div>
+<div layout:fragment="sidebar" class="col-xs-2"></div>
+<div layout:fragment="content" class="col-xs-10"></div>
+<footer layout:fragment="footer on-bottom" class="col-xs-12">&copy; inndra 2014.</footer>
+<th:block layout:fragment="configuration"></th:block>
+</body>
+</html>

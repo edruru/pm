@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+        'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace='com.inndra.pm.core.mapper.RecordMapper'>
+
+    <!-- Instead of referencing Fully Qualified Class Names we can register Aliases in mybatis-config.xml and use Alias names. -->
+    <resultMap id='RecordResult' type='Record'>
+        <id property='id' column='id'/>
+        <result property='userId' column='user_assigned'/>
+        <result property='description' column='description'/>
+        <result property='creationDate' column='creation_date'/>
+        <result property='beginDate' column='begin_date'/>
+        <result property='finishDate' column='finish_date'/>
+    </resultMap>
+
+
+    <select id='getRecordByText' parameterType='java.lang.String' resultMap='RecordResult'>
+        SELECT *
+        FROM RECORDS
+        WHERE DESCRIPTION LIKE #{description}
+    </select>
+
+    <select id='getRecordByUser' parameterType='java.lang.String' resultMap='RecordResult'>
+        SELECT *
+        FROM RECORDS, USERS
+        WHERE RECORDS.USER_ASSIGNED = USERS.ID
+        AND USERS.NAME LIKE #{name}
+    </select>
+
+    <select id='getRecordById' parameterType='int' resultMap='RecordResult'>
+        SELECT *
+        FROM RECORDS
+        WHERE id = #{id}
+    </select>
+
+
+    <select id='getAllRecord' resultMap='RecordResult'>
+        SELECT * FROM RECORDS
+    </select>
+
+    <insert id='insertRecord' parameterType='Record' useGeneratedKeys='true' keyProperty='id'>
+        INSERT INTO RECORDS(user_assigned, description, begin_date, finish_date)
+        VALUES( #{userId} , #{description}, #{beginDate}, #{finishDate})
+    </insert>
+
+    <update id='updateRecord' parameterType='Record'>
+        UPDATE records SET user_assigned = #{userId},
+        description = #{ description},
+        creation_date = #{creationDate},
+        begin_date = #{beginDate},
+        finish_date = #{finishDate} WHERE id = #{id};
+    </update>
+
+    <delete id='deleteRecord' parameterType='int'>
+        DELETE FROM records WHERE id = #{id}
+    </delete>
+
+    <select id='getLastRecords' parameterType='java.lang.String' resultMap='RecordResult'>
+        SELECT *
+        FROM RECORDS
+        WHERE
+        CREATION_DATE LIKE #{date}
+    </select>
+
+
+</mapper>

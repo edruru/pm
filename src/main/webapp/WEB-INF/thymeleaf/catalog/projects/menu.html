@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="/layouts/decorator.html">
+
+<head>
+    <title>inndra &mdash; Projects</title>
+    <link media="screen" rel="stylesheet" type="text/css"
+          th:href="@{/client/assets/plugins/css/starter-template.css}"/>
+</head>
+<body>
+<th:block layout:fragment="header" layout:include="/decorators/header.html :: header">
+    HEADER
+</th:block>
+
+<!--  -->
+
+<div layout:fragment="sidebar" layout:include="/decorators/sidebar.html :: sidebar_projects"></div>
+
+<div layout:fragment="content" class="container">
+    <br/>
+
+    <h3>Shows the last activity feed.</h3>
+
+</div>
+
+<!--  -->
+
+<th:block layout:fragment="configuration">
+    <script th:src="@{/assets/libs/jquery/js/jquery.min.js}"></script>
+    <script th:src="@{/assets/libs/bootstrap-3.1.1/js/bootstrap.min.js}"></script>
+</th:block>
+</body>
+</html>

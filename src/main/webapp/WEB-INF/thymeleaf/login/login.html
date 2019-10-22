@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7" xmlns:th="http://www.thymeleaf.org"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8" xmlns:th="http://www.thymeleaf.org"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9" xmlns:th="http://www.thymeleaf.org"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" xmlns:th="http://www.thymeleaf.org"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="description" content="A clean login and registration template based on Bootstrap framework"/>
+    <meta name="author" content="edwin.rubio"/>
+
+    <title>Project Management - Login</title>
+
+    <!-- Bootstrap core CSS -->
+    <link media="screen" rel="stylesheet" type="text/css"
+          th:href="@{/assets/libs/bootstrap-3.1.1/css/bootstrap.min.css}"/>
+
+    <!-- Custom styles for this template -->
+    <link media="screen" rel="stylesheet" type="text/css"
+          th:href="@{/assets/libs/bootstrap-3.1.1/css/custom.css}"/>
+
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"/>
+    <link media="screen" rel="stylesheet"
+          href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,300italic"/>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<div id="mainWrap">
+    <div id="loggit">
+        <h1><i class="fa fa-lock"></i> Project Management</h1>
+
+        <h3>Please <strong>Login</strong></h3>
+
+        <form action="authentication" th:action="@{/j_spring_security_check}"
+              method="post" class="form-horizontal" id="logForm">
+            <fieldset>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
+                            <input type="text" id="username" name="username" class="form-control input-lg"
+                                   placeholder="Username" autocomplete="off"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+                            <input id="password" name="password" type="password" class="form-control input-lg"
+                                   placeholder="Password" autocomplete="off"/>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <span th:class="help-block" style="color: red;" th:text="${msg} != null ? ${msg}"/>
+                <br/>
+            </fieldset>
+            <div class="form-group formSubmit">
+                <div class="col-sm-7">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" autocomplete="off"/> Keep me logged in
+                        </label>
+                    </div>
+                </div>
+                <div class="col-sm-5 submitWrap">
+                    <button type="submit" class="btn btn-primary btn-lg">Log In</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+<footer class="clearfix">
+    <p>Copyright &copy; 2014 Project Management - inndra. &amp; All Rights Reserved</p>
+</footer>
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script th:src="@{/assets/libs/jquery/js/jquery.min.js}"></script>
+<script th:src="@{/assets/libs/bootstrap-3.1.1/js/bootstrap.min.js}"></script>
+
+</body>
+</html>

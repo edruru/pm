@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+        'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace='com.inndra.pm.core.mapper.UserMapper'>
+
+    <select id='getUserById' parameterType='int' resultType='com.inndra.pm.core.domain.model.User'>
+        SELECT *
+        FROM Users
+        WHERE id = #{id}
+    </select>
+    <!-- Instead of referencing Fully Qualified Class Names we can register Aliases in mybatis-config.xml and use Alias names. -->
+    <resultMap type='User' id='UserResult'>
+        <id property='id' column='id'/>
+        <result property='name' column='name'/>
+    </resultMap>
+
+    <select id='getAllUsers' resultMap='UserResult'>
+        SELECT * FROM Users
+    </select>
+
+    <insert id='insertUser' parameterType='User' useGeneratedKeys='true' keyProperty='id'>
+        INSERT INTO Users(name)
+        VALUES(#{name})
+    </insert>
+
+    <update id='updateUser' parameterType='User'>
+        UPDATE Users
+        SET
+        name= #{name}
+        WHERE id = #{id}
+    </update>
+
+    <delete id='deleteUser' parameterType='int'>
+        DELETE FROM Users WHERE id = #{id}
+    </delete>
+
+    <select id='getRecordByUserName' parameterType='java.lang.String' resultMap='UserResult'>
+        SELECT *
+        FROM USERS
+        WHERE NAME LIKE #{description}
+    </select>
+
+    <select id='getRecordByUserId' parameterType='java.lang.String' resultMap='UserResult'>
+        SELECT *
+        FROM USERS
+        WHERE ID LIKE #{id}
+    </select>
+
+</mapper>

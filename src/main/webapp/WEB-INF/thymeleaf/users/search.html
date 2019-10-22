@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="/layouts/decorator.html">
+
+<head>
+    <title>inndra &mdash; Record</title>
+    <link media="screen" rel="stylesheet" type="text/css"
+          th:href="@{/client/assets/plugins/css/starter-template.css}"/>
+</head>
+<body>
+<th:block layout:fragment="header" layout:include="/decorators/header.html :: header">
+    HEADER
+</th:block>
+
+<!--  -->
+<div layout:fragment="sidebar" layout:include="/decorators/sidebar.html :: sidebar_user">
+
+</div>
+
+
+<div layout:fragment="content" class="container">
+
+    <form id="searchData" class="form-horizontal" th:object="${user}" th:action='@{find}' method="GET">
+
+        <h4>Search users</h4>
+
+        <br/>
+        <th:block th:object="${criteria}" th:with='isFault=${#fields.hasErrors()} ? ${#fields.hasErrors("type")}'>
+            <div class="form-group" th:classappend='${isFault} ? has-error'>
+                <label class="col-sm-1 control-label">By:</label>
+
+                <div class="col-sm-2">
+                    <select class="form-control" th:field="*{type}">
+                        <option th:value="0">select one..</option>
+                        <option th:value="1">Id</option>
+                        <option th:value="2">Text</option>
+                    </select>
+                </div>
+                <span th:class="help-block" th:if='${isFault}' th:errors="*{type}"/>
+            </div>
+        </th:block>
+
+
+        <th:block th:object="${criteria}" th:with='isFault=${#fields.hasErrors()} ? ${#fields.hasErrors("text")}'>
+            <div class="form-group" th:classappend='${isFault} ? has-error'>
+                <label class="col-sm-1 control-label">Query:</label>
+
+                <div class="col-sm-3">
+                    <input th:field="*{text}" type="text" class="form-control"/>
+                    <span th:class="help-block" th:if='${isFault}' th:errors="*{text}"/>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-2">
+                        <button id="doSearch" type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+    </form>
+
+    <form>
+
+        <div class="form-group">
+
+            <div class="col-sm-8">
+                <h4>Users Found</h4>
+                <th:block>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th class="col-sm-2">Id</th>
+                            <th class="col-sm-4">Name</th>
+                            <th class="col-sm-2">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody th:sortedEach="${userList}">
+                        <tr th:id="row__${recStat.index}__" th:each="user1 , recStat : ${userList}">
+                            <td th:text="${user1.id}"/>
+                            <td th:text="${user1.name}"/>
+                            <td>
+                                <a th:href="@{edit/(id=${user1.id})}" class="btn btn-primary">Update</a>
+
+                                <!--<a th:id="${user1.id}" th:name="row__${recStat.index}__"
+                                   class="btn btn-primary update">Update</a>-->
+
+                                <a th:id="row__${recStat.index}__" th:name="${user1.id}"
+                                   class="btn btn-danger delete">Delete</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </th:block>
+            </div>
+        </div>
+    </form>
+</div>
+
+<th:block layout:fragment="configuration">
+    <script th:src="@{/assets/libs/jquery/js/jquery.min.js}"></script>
+    <script th:src="@{/assets/libs/bootstrap-3.1.1/js/bootstrap.min.js}"></script>
+    <script th:src="@{/assets/libs/pm/searchRecordFields.js}"></script>
+</th:block>
+</body>
+</html>

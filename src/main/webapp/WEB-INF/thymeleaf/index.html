@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="/layouts/decorator.html">
+
+<head>
+    <title>inndra &mdash; Project Management</title>
+    <link media="screen" rel="stylesheet" type="text/css"
+          th:href="@{/client/sources/plugins/css/starter-template.css}"/>
+    <link media="screen" rel="stylesheet" type="text/css"
+          th:href="@{/client/assets/libs/bootstrap-3.1.1/css/bootstrap.min.css}"/>
+    <link media="screen" rel="stylesheet" type="text/css"
+          th:href="@{/client/sources/commons/css/strapped.css}"/>
+</head>
+<body>
+<th:block layout:fragment="header">
+
+    <nav class="navbar navbar-default navbar-inverse " role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand nav-link" href="#top">inndra</a>
+            </div>
+            <!-- /.navbar-header -->
+
+            <div class=" navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="navbar-text">Welcome</li>
+                    <li class="navbar-text" th:text="${#authentication.name}"></li>
+                    <li>
+                        <form th:action="@{/j_spring_security_logout}" method="post">
+                            <input type="hidden" name="${_csrf.parameterName}"
+                                   value="${_csrf.token}"/>
+                            <button type="submit" class="btn btn-warning btn-sm navbar-btn">Logout</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+    <!-- /.navbar -->
+
+</th:block>
+
+
+<div layout:fragment="sidebar" layout:include="decorators/sidebar.html :: sidebar_catalog"></div>
+
+<div layout:fragment="content" class="container">
+
+    <div class="container">
+
+        <h3 id="benefits" class="subhead"></h3>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-6 benefit">
+                <a href="requirement/menu">
+                    <div class="benefit-ball">
+                        <span class="glyphicon glyphicon-lock"></span>
+                    </div>
+                </a>
+
+                <h3>Requirement Management</h3>
+
+                <p>Create a requirement, assign it to a team member, change statuses, generate reports, provide
+                    feedback, those are a few
+                    of the things you are capable to do as the project leader!</p>
+            </div>
+            <!-- /.benefit -->
+
+            <div class="col-md-6 col-sm-6 benefit">
+                <a href="record/menu">
+                    <div class="benefit-ball">
+                        <span class="glyphicon glyphicon-time"></span>
+                    </div>
+                </a>
+
+                <h3>Time Tracking Analysis</h3>
+
+                <p>Keep track of what your team is doing, and how long does it take for them to complete does
+                    things.</p>
+            </div>
+            <!-- /.benefit -->
+        </div>
+        <!-- /.row -->
+
+
+    </div>
+    <!-- /.container -->
+
+</div>
+
+
+<th:block layout:fragment="configuration">
+    <script th:src="@{/assets/libs/jquery/js/jquery.min.js}"></script>
+    <script th:src="@{/assets/libs/bootstrap-3.1.1/js/bootstrap.min.js}"></script>
+</th:block>
+</body>
+</html>

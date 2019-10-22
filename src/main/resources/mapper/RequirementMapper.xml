@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+        'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace='com.inndra.pm.core.mapper.RequirementMapper'>
+
+    <!-- Instead of referencing Fully Qualified Class Names we can register Aliases in mybatis-config.xml and use Alias names. -->
+    <resultMap id='RequirementResult' type='Requirement'>
+        <id property='id' column='id'/>
+        <result property='userId' column='user_asigned'/>
+        <result property='text' column='text'/>
+        <result property='creationDate' column='creation_date'/>
+        <result property='beginDate' column='begin_date'/>
+        <result property='finishDate' column='finish_date'/>
+        <result property='projectId' column='project'/>
+        <result property='priorityId' column='priority'/>
+        <result property='sprintId' column='id_sprint'/>
+    </resultMap>
+
+    <select id='getLastRequirements' parameterType='java.lang.String' resultMap='RequirementResult'>
+        SELECT *
+        FROM REQUIREMENTS
+        WHERE
+        BEGIN_DATE >= #{date}
+        OR
+        BEGIN_DATE IS NULL
+    </select>
+
+    <select id='getRequirementByText' parameterType='java.lang.String' resultMap='RequirementResult'>
+        SELECT *
+        FROM REQUIREMENTS
+        WHERE REQUIREMENTS.TEXT LIKE #{text}
+    </select>
+
+    <select id='getRequirementByUser' parameterType='java.lang.String' resultMap='RequirementResult'>
+        SELECT REQUIREMENTS.*
+        FROM REQUIREMENTS, USERS
+        WHERE REQUIREMENTS.USER_ASIGNED = USERS.ID
+        AND USERS.NAME LIKE #{name}
+    </select>
+
+    <select id='getRequirementByProject' parameterType='java.lang.String' resultMap='RequirementResult'>
+        SELECT REQUIREMENTS.* , PROJECTS.NAME
+        FROM REQUIREMENTS, PROJECTS
+        WHERE REQUIREMENTS.PROJECT = PROJECTS.ID
+        AND PROJECTS.NAME LIKE #{name}
+    </select>
+
+    <select id='getRequirementByStatus' parameterType='java.lang.String' resultMap='RequirementResult'>
+        SELECT REQUIREMENTS.* , STATUS.TYPE AS type, REQUIREMENT_HISTORY.TEXT as hist_text
+        FROM REQUIREMENTS, STATUS, REQUIREMENT_HISTORY
+        WHERE REQUIREMENTS.ID = REQUIREMENT_HISTORY.ID_REQ
+        AND REQUIREMENT_HISTORY.STATUS = STATUS.ID
+        AND STATUS.TYPE LIKE #{type} AND REQUIREMENT_HISTORY.ID = ( SELECT ID FROM REQUIREMENT_HISTORY ORDER BY ID
+        DESC LIMIT 1)
+    </select>
+
+    <select id='getRequirementByBeginDate' parameterType="map" resultMap='RequirementResult'>
+        SELECT * FROM REQUIREMENTS WHERE
+        BEGIN_DATE BETWEEN #{firstDate} AND #{secondDate}
+    </select>
+
+    <select id='getRequirementById' parameterType='int' resultMap='RequirementResult'>
+        SELECT *
+        FROM Requirements
+        WHERE id = #{id}
+    </select>
+
+    <select id='getAllRequirements' resultMap='RequirementResult'>
+        SELECT * FROM Requirements
+    </select>
+
+    <insert id='insertRequirement' parameterType='Requirement' useGeneratedKeys='true' keyProperty='id'>
+        INSERT INTO Requirements (user_asigned, text, begin_date, finish_date, project, priority )
+        VALUES ( #{userId}, #{text}, #{beginDate}, #{finishDate}, #{projectId}, #{priorityId} )
+    </insert>
+
+    <update id='updateRequirement' parameterType='Requirement'>
+        UPDATE Requirements SET user_asigned = #{userId},
+        text = #{text},
+        begin_date = #{beginDate},
+        finish_date = #{finishDate},
+        project = #{projectId},
+        priority = #{priorityId},
+        id_sprint = #{sprintId}
+        WHERE id = #{id};
+    </update>
+
+    <delete id='deleteRequirement' parameterType='int'>
+        CALL DELETE_REQUIREMENT(#{id});
+    </delete>
+
+</mapper>

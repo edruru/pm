@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+        'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace='com.inndra.pm.core.mapper.RequirementHistoryMapper'>
+
+    <!-- Instead of referencing Fully Qualified Class Names we can register Aliases in mybatis-config.xml and use Alias names. -->
+    <resultMap id='RequirementHistoryResult' type='RequirementHistory'>
+        <id property='id' column='id'/>
+        <result property='requirementId' column='id_req'/>
+        <result property='text' column='text'/>
+        <result property='statusId' column='status'/>
+        <result property='date' column='date'/>
+    </resultMap>
+
+    <select id='getRHByStatus' parameterType='java.lang.String' resultMap='RequirementHistoryResult'>
+        SELECT *
+        FROM REQUIREMENT_HISTORY
+        WHERE REQUIREMENTS_HISTORY.STATUS = #{statusId}
+    </select>
+
+    <select id='getRHByText' parameterType='java.lang.String' resultMap='RequirementHistoryResult'>
+        SELECT *
+        FROM REQUIREMENT_HISTORY
+        WHERE REQUIREMENTS_HISTORY.TEXT = #{text}
+    </select>
+
+    <select id='getRHById' parameterType='int' resultMap='RequirementHistoryResult'>
+        SELECT *
+        FROM REQUIREMENT_HISTORY
+        WHERE id = #{id}
+    </select>
+
+    <select id='getRHByRequirementId' parameterType='int' resultMap='RequirementHistoryResult'>
+        SELECT *
+        FROM REQUIREMENT_HISTORY
+        WHERE REQUIREMENT_HISTORY.ID_REQ = #{id}
+    </select>
+
+    <insert id='insertRH' parameterType='RequirementHistory' useGeneratedKeys='true' keyProperty='id'>
+        INSERT INTO REQUIREMENT_HISTORY (id_req, text, status, date )
+        VALUES ( #{requirementId}, #{text}, #{statusId}, #{date} )
+    </insert>
+
+    <update id='updateRH' parameterType='RequirementHistory'>
+        UPDATE REQUIREMENT_HISTORY SET id_req = #{requirementId},
+        text = #{text},
+        status = #{statusId},
+        date = #{date},
+        WHERE id = #{id};
+    </update>
+
+    <delete id='deleteRequirement' parameterType='int'>
+        DELETE FROM REQUIREMENT_HISTORY WHERE id = #{id}
+    </delete>
+
+</mapper>

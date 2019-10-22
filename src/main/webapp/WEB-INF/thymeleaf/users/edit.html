@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="/layouts/decorator.html">
+
+<head>
+    <title>inndra &mdash; Record</title>
+    <link media="screen" rel="stylesheet" type="text/css"
+          th:href="@{/client/assets/plugins/css/starter-template.css}"/>
+</head>
+<body>
+<th:block layout:fragment="header" layout:include="/decorators/header.html :: header">
+    HEADER
+</th:block>
+
+<!--  -->
+<div layout:fragment="sidebar" layout:include="/decorators/sidebar.html :: sidebar_user">
+
+</div>
+
+<div layout:fragment="content" class="container">
+
+    <form class="form-horizontal" th:object="${user}" method="POST" th:action="@{/users/edit}">
+
+        <h3 class="col-sm-offset-1"> Edit user</h3>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">ID</label>
+
+            <div class="col-sm-2">
+                <h5 th:text="${user.id}"></h5>
+                <input type="hidden" th:field="${user.id}"/>
+            </div>
+        </div>
+
+        <th:block th:with='isFault=${#fields.hasErrors()} ? ${#fields.hasErrors("name")}'>
+            <div class="form-group" th:classappend='${isFault} ? has-error'>
+                <label class="col-sm-2 control-label">Name:</label>
+
+                <div class="col-sm-4">
+                <input th:field="${user.name}" th:value="${user.name}" class="form-control"/>
+                </div>
+                 <span th:if='${isFault}'
+                       th:title='${#fields.errors("name")}'
+                       class="glyphicon glyphicon-remove form-control-feedback"
+                       data-toggle="tooltip"></span>
+            </div>
+
+            <input type="hidden"
+                   th:name="${_csrf.parameterName}"
+                   th:value="${_csrf.token}"/>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </div>
+        </th:block>
+    </form>
+</div>
+
+<!--  -->
+
+<th:block layout:fragment="configuration">
+    <script th:src="@{/assets/libs/jquery/js/jquery.min.js}"></script>
+    <script th:src="@{/assets/libs/bootstrap-3.1.1/js/bootstrap.min.js}"></script>
+</th:block>
+</body>
+</html>

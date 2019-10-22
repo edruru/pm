@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="/layouts/decorator.html">
+
+<head>
+    <title>inndra &mdash; Requirement</title>
+    <link media="screen" rel="stylesheet" type="text/css"
+          th:href="@{/client/assets/plugins/css/starter-template.css}"/>
+</head>
+<body>
+<th:block layout:fragment="header" layout:include="/decorators/header.html :: header">
+    HEADER
+</th:block>
+
+<!--  -->
+<div layout:fragment="sidebar" layout:include="/decorators/sidebar.html :: sidebar_requirement"></div>
+
+<div layout:fragment="content" class="container">
+
+
+    <h3>Request created</h3><br/>
+
+    <table class="table">
+        <thead>
+        <th>#</th>
+        <th>User Assigned</th>
+        <th>Text</th>
+        <th>Creation Date</th>
+        <th>Begin Date</th>
+        <th>Finish Date</th>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${createdItem.id}"> -</td>
+            <td th:text="${user.name}"> -</td>
+            <td th:text="${createdItem.text}"> -</td>
+            <td th:text="${createdItem.creationDate}"></td>
+            <td th:text="${createdItem.beginDate}"> -</td>
+            <td th:text="${createdItem.finishDate}"> -</td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <td colspan="6" style="text-align: right;">
+            <a th:href="@{menu}" class="btn btn-primary"><span class='glyphicon glyphicon-floppy-disk'></span> Done</a>
+        </td>
+        </tfoot>
+    </table>
+
+
+</div>
+
+<!--  -->
+
+<th:block layout:fragment="configuration">
+    <script th:src="@{/assets/libs/jquery/js/jquery.min.js}"></script>
+    <script th:src="@{/assets/libs/bootstrap-3.1.1/js/bootstrap.min.js}"></script>
+</th:block>
+</body>
+</html>
