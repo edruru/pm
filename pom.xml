@@ -24,7 +24,7 @@
         <cglib.version>2.2.2</cglib.version>
         <jodatime.version>2.1</jodatime.version>
         <junit.version>4.11</junit.version>
-        <mybatis.version>3.1.1</mybatis.version>
+        <mybatis.version>3.5.6</mybatis.version>
         <mybatis.spring.version>1.1.1</mybatis.spring.version>
         <mysql.version>5.1.21</mysql.version>
         <maven-surefire-plugin.version>2.17</maven-surefire-plugin.version>
