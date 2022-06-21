@@ -26,7 +26,7 @@
         <junit.version>4.11</junit.version>
         <mybatis.version>3.1.1</mybatis.version>
         <mybatis.spring.version>1.1.1</mybatis.spring.version>
-        <mysql.version>5.1.21</mysql.version>
+        <mysql.version>8.0.28</mysql.version>
         <maven-surefire-plugin.version>2.17</maven-surefire-plugin.version>
     </properties>
 
